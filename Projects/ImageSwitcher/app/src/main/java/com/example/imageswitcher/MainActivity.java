@@ -3,6 +3,7 @@ package com.example.imageswitcher;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,15 +31,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
-        
+
         pageTextView =findViewById(R.id.pageTextView);
         contentImageView = findViewById(R.id.contentImageView);
         prevImageButton = findViewById(R.id.prevImageButton);
         nextImageButton = findViewById(R.id.nextImageButton);
 
-        setPage(1);
+        SharedPreferences pageData = getSharedPreferences("page", MODE_PRIVATE);
+        pageNumber = pageData.getInt("pageNumber", 1);
+
+        setPage(pageNumber);
     }
 
     public void onBtnPrev(View view) {
@@ -61,5 +66,10 @@ public class MainActivity extends AppCompatActivity {
 
         prevImageButton.setEnabled(pageNumber != 1);
         nextImageButton.setEnabled(pageNumber != RES_IDS.length);
+
+        SharedPreferences pageData = getSharedPreferences("page", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pageData.edit();
+        editor.putInt("pageNumber", pageNumber);
+        editor.commit();
     }
 }
