@@ -3,5 +3,9 @@
     <item android:state_pressed="true"
         android:drawable="@mipmap/prev_p"/>
 
-    <item android:drawable="@mipmap/prev"/>
+    <item android:state_enabled="false"
+        android:drawable="@mipmap/prev_d"/>
+
+    <item android:state_enabled="true"
+        android:drawable="@mipmap/prev"/>
 </selector>

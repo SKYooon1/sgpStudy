@@ -16,7 +16,7 @@
             android:id="@+id/prevImageButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/sel_prev"
+            android:background="@drawable/sel_prev"
             android:scaleType="fitCenter"
             android:onClick="onBtnPrev"
             />
@@ -35,7 +35,7 @@
             android:id="@+id/nextImageButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/sel_next"
+            android:background="@drawable/sel_next"
             android:scaleType="fitCenter"
             android:onClick="onBtnNext"
             />

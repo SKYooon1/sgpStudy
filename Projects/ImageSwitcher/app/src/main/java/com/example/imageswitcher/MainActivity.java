@@ -1,10 +1,12 @@
 package com.example.imageswitcher;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,18 +23,20 @@ public class MainActivity extends AppCompatActivity {
     private int pageNumber;
     private TextView pageTextView;
     private ImageView contentImageView;
-    private ImageView prevButtonView;
-    private ImageView nextButtonView;
+    private ImageButton prevImageButton;
+    private ImageButton nextImageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+        
         pageTextView =findViewById(R.id.pageTextView);
         contentImageView = findViewById(R.id.contentImageView);
-        prevButtonView = findViewById(R.id.prevImageButton);
-        nextButtonView = findViewById(R.id.nextImageButton);
+        prevImageButton = findViewById(R.id.prevImageButton);
+        nextImageButton = findViewById(R.id.nextImageButton);
 
         setPage(1);
     }
@@ -48,25 +52,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setPage(int page){
-        if (page < 1 ||page > 5)
-            return;
         pageNumber = page;
         String text = pageNumber + " / " + 5;
         pageTextView.setText(text);
 
         int resID = RES_IDS[pageNumber - 1];
         contentImageView.setImageResource(resID);
-        setEnabled(page);
-    }
 
-    private void setEnabled(int page){
-        if (page == 1)
-            prevButtonView.setImageResource(R.mipmap.prev_d);
-        else
-            prevButtonView.setImageResource(R.mipmap.prev);
-        if (page == 5)
-            nextButtonView.setImageResource(R.mipmap.next_d);
-        else
-            nextButtonView.setImageResource(R.mipmap.next);
+        prevImageButton.setEnabled(pageNumber != 1);
+        nextImageButton.setEnabled(pageNumber != RES_IDS.length);
     }
 }
