@@ -1,12 +1,15 @@
 package com.example.cards;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,26 +28,48 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private ImageButton previousButton;
+    private int flips;
+    private TextView scoreTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+         scoreTextView = findViewById(R.id.scoreTextView);
+
         startGame();
     }
 
     private void startGame() {
-        for (int i= 0; i<BUTTON_IDS.length; i++){
+        for (int i = 0; i < BUTTON_IDS.length; i++) {
             int resId = resIds[i];
             ImageButton btn = findViewById(BUTTON_IDS[i]);
             btn.setTag(resId);
         }
+        setScore(0);
     }
 
     public void onBtnRestart(View view) {
         Log.d(TAG, "onBtnRestart");
+        askRetry();
     }
+
+    private void askRetry() {
+        new AlertDialog.Builder(this)
+                .setTitle("Restart")
+                .setMessage("Do you really want to restart the game?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startGame();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .create()
+                .show();
+    }
+
     public void onBtnCard(View view) {
         if(!(view instanceof ImageButton)) {
             Log.e(TAG, "Not an imageButton: " + view);
@@ -70,11 +95,18 @@ public class MainActivity extends AppCompatActivity {
                 previousButton.setImageResource(R.mipmap.card_blue_back);
             }
             previousButton = imageButton;
+            setScore(flips + 1);
         } else {
             imageButton.setVisibility(View.INVISIBLE);
             previousButton.setVisibility(View.INVISIBLE);
             previousButton = null;
         }
+    }
+
+    private void setScore(int flips) {
+        this.flips = flips;
+
+        scoreTextView.setText("flips: " + flips);
     }
 
     private int findButtonIndex(int id) {
