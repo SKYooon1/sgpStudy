@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,16 +29,17 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private ImageButton previousButton;
-    private int flips;
     private TextView scoreTextView;
+    private int flips;
+    private int openCardCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-         scoreTextView = findViewById(R.id.scoreTextView);
-
+        scoreTextView = findViewById(R.id.scoreTextView);
+        openCardCount = resIds.length;
         startGame();
     }
 
@@ -45,7 +47,10 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < BUTTON_IDS.length; i++) {
             int resId = resIds[i];
             ImageButton btn = findViewById(BUTTON_IDS[i]);
+            btn.setVisibility(View.VISIBLE);
+            btn.setImageResource(R.mipmap.card_blue_back);
             btn.setTag(resId);
+            previousButton = null;
         }
         setScore(0);
     }
@@ -78,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         ImageButton imageButton = (ImageButton) view;
         if (imageButton == previousButton){
             Log.v(TAG, "Same Button");
+            Toast.makeText(this,"You pressed same card!", Toast.LENGTH_SHORT).show();
             return;
         }
         int btnIndex = findButtonIndex(imageButton.getId());
@@ -99,6 +105,10 @@ public class MainActivity extends AppCompatActivity {
         } else {
             imageButton.setVisibility(View.INVISIBLE);
             previousButton.setVisibility(View.INVISIBLE);
+            openCardCount -= 2;
+            if (openCardCount == 0){
+                askRetry();
+            }
             previousButton = null;
         }
     }
