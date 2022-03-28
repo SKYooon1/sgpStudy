@@ -39,14 +39,19 @@
             android:layout_weight="1"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:background="#ccf"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:background="#fcc"
             />
     </LinearLayout>
     <com.example.morecontrols.GameView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:padding="20dp"
+        android:paddingLeft="100dp"
+        android:paddingRight="100dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:background="#ccf"
         />
     <Button
