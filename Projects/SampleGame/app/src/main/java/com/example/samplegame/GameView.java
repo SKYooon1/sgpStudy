@@ -23,7 +23,7 @@ public class GameView extends View implements Choreographer.FrameCallback {
 
     private int ballDx;
     private int ballDy;
-    private long previousTimeMillis;
+    private long previousTimeNanos;
     private int framePerSecond;
     private Paint fpsPaint = new Paint();
 
@@ -49,12 +49,13 @@ public class GameView extends View implements Choreographer.FrameCallback {
     }
 
     @Override
-    public void doFrame(long l) {
-        long now = System.currentTimeMillis();
-        int elapsed = (int) (now - previousTimeMillis);
-        framePerSecond = 1000 / elapsed;
+    public void doFrame(long currentTimeNanos) {
+        long now = currentTimeNanos;
+        //long now = System.currentTimeMillis();
+        int elapsed = (int) (now - previousTimeNanos);
+        framePerSecond = 1_000_000_000 / elapsed;
         Log.v(TAG, "Elapsed: " + elapsed + " FPS: " + framePerSecond);
-        previousTimeMillis = now;
+        previousTimeNanos = now;
         update();
         invalidate();
         Choreographer.getInstance().postFrameCallback(this);
