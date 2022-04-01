@@ -19,7 +19,6 @@ public class GameView extends View {
     private Rect soccerSrcRect = new Rect();
     private Rect soccerDstRect = new Rect();
 
-    private Handler handler = new Handler();
     private int ballDx;
     private int ballDy;
 
@@ -45,12 +44,12 @@ public class GameView extends View {
         update();
 
         invalidate();
-        handler.post(new Runnable() {
+        postDelayed(new Runnable() {
             @Override
             public void run() {
                 updateFrame();
             }
-        });
+        }, 16);
     }
 
     private void update() {
