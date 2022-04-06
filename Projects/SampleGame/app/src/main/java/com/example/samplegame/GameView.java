@@ -1,13 +1,9 @@
 package com.example.samplegame;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Choreographer;
@@ -23,7 +19,8 @@ public class GameView extends View implements Choreographer.FrameCallback {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int BALL_COUNT = 10;
 //    Ball ball1, ball2;
-    private ArrayList<Ball> balls = new ArrayList<>();
+//    private ArrayList<Ball> balls = new ArrayList<>();
+    private ArrayList<GameObject> objects = new ArrayList<>();
     private Fighter fighter;
     private long previousTimeNanos;
     private int framePerSecond;
@@ -43,14 +40,16 @@ public class GameView extends View implements Choreographer.FrameCallback {
 //        Bitmap soccerBitmap = BitmapFactory.decodeResource(res, R.mipmap.soccer_ball_240);
 //        Ball.setBitmap(soccerBitmap);
 
-        fighter = new Fighter();
         Random random = new Random();
         for (int i =0; i < BALL_COUNT; i++) {
             int dx = random.nextInt(10) + 5;
             int dy = random.nextInt(10) + 5;
             Ball ball = new Ball(dx, dy);
-            balls.add(ball);
+            objects.add(ball);
         }
+
+        fighter = new Fighter();
+        objects.add(fighter);
 
         fpsPaint.setColor(Color.BLUE);
         fpsPaint.setTextSize(100);
@@ -74,18 +73,18 @@ public class GameView extends View implements Choreographer.FrameCallback {
     }
 
     private void update() {
-        for (Ball ball : balls) {
-            ball.update();
+        for (GameObject gobj : objects) {
+            gobj.update();
         }
 //        fighter.update();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        for (Ball ball : balls) {
-            ball.draw(canvas);
+        for (GameObject gobj : objects) {
+            gobj.draw(canvas);
         }
-        fighter.draw(canvas);
+//        fighter.draw(canvas);
         canvas.drawText("FPS: " + framePerSecond, framePerSecond * 10,100, fpsPaint);
         //Log.d(TAG, "onDraw()");
     }
